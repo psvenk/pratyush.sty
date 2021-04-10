@@ -1,25 +1,38 @@
-\documentclass[letterpaper, DIV=11]{scrartcl}
+\ProvidesPackage{pratyush}
+
+% Add option to disable amssymb and mathtools (e.g., if using mathdesign)
+\newif\if@ams\@amsfalse
+\DeclareOption{noamsfonts}{\@amstrue}
+
+\ProcessOptions\relax
 
 % Standard package imports and config {{{
-\usepackage[T1]{fontenc}
-\usepackage{lmodern}
+\RequirePackage[T1]{fontenc}
+\if@ams\else
+\RequirePackage{lmodern}
+\fi
 
-\usepackage{microtype}
-\usepackage{hyphsubst}
+\RequirePackage{microtype}
+\RequirePackage{hyphsubst}
 \HyphSubstLet{english}{usenglishmax}
-\usepackage[english]{babel}
+\RequirePackage[english]{babel}
 % https://tex.stackexchange.com/a/27743
 
-\usepackage{amsmath, amssymb, mathtools}
-\usepackage[colorlinks]{hyperref}
-\usepackage{array, booktabs, multirow, longtable}
+\RequirePackage{amsmath}
 
-\usepackage[shortlabels, inline]{enumitem}
+\if@ams\else
+\RequirePackage{amssymb, mathtools}
+\fi
+
+\RequirePackage[colorlinks]{hyperref}
+\RequirePackage{array, booktabs, multirow, longtable}
+
+\RequirePackage[shortlabels, inline]{enumitem}
 \setenumerate[2]{label=(\alph*)}
 
-\usepackage[inline]{asymptote}
+\RequirePackage[inline]{asymptote}
 
-\usepackage{amsthm}
+\RequirePackage{amsthm}
 \theoremstyle{definition}
 \newtheorem*{solution}{Solution}
 \newtheorem*{definition}{Definition}
@@ -28,11 +41,11 @@
 \newtheorem{lemma}{Lemma}
 \newtheorem*{lemma*}{Lemma}
 
-\usepackage{fancyvrb}
+\RequirePackage{fancyvrb}
 \VerbatimFootnotes
 % https://tex.stackexchange.com/a/209
 
-\usepackage{xparse}
+\RequirePackage{xparse}
 % }}}
 
 % Linear algebra macros {{{1
@@ -96,5 +109,4 @@
 \allowdisplaybreaks
 
 \author{Pratyush Venkatakrishnan}
-\publishers{Harvard Math 21b}
 % vim: set fdm=marker:
