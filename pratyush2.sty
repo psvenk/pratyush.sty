@@ -1,0 +1,119 @@
+\ProvidesPackage{pratyush2}[2021/07/21 Personal style file, version 2]
+
+% Import amssymb and mathtools (disable if using mathdesign)
+\newif\ifpratyush@amsfonts\pratyush@amsfontstrue
+% Theorems (amsthm)
+\newif\ifpratyush@thm\pratyush@thmtrue
+% Theorem, lemma, etc. numbering by default
+\newif\ifpratyush@thmnums\pratyush@thmnumstrue
+% Definition numbering by default
+\newif\ifpratyush@defnnums\pratyush@defnnumsfalse
+% Asymptote
+\newif\ifpratyush@asy\pratyush@asytrue
+% Linear algebra macros
+\newif\ifpratyush@linalg\pratyush@linalgfalse
+
+\DeclareOption{noamsfonts}{\pratyush@amsfontsfalse}
+\DeclareOption{nothm}{\pratyush@thmfalse}
+\DeclareOption{thmnonums}{\pratyush@thmnumsfalse}
+\DeclareOption{defnnums}{\pratyush@defnnumstrue}
+\DeclareOption{noasy}{\pratyush@asyfalse}
+\DeclareOption{linalg}{\pratyush@linalgtrue}
+
+\ProcessOptions\relax
+
+% Standard package imports and config {{{
+\RequirePackage[T1]{fontenc}
+\ifpratyush@amsfonts
+	\RequirePackage{lmodern}
+\fi
+
+\RequirePackage{microtype}
+\RequirePackage{hyphsubst}
+\HyphSubstLet{english}{usenglishmax}
+\RequirePackage[english]{babel}
+% https://tex.stackexchange.com/a/27743
+
+\RequirePackage{amsmath}
+\ifpratyush@amsfonts
+	\RequirePackage{amssymb, mathtools}
+\fi
+
+\RequirePackage[colorlinks]{hyperref}
+\RequirePackage{array, booktabs, multirow, longtable}
+
+\RequirePackage[shortlabels, inline]{enumitem}
+\setenumerate[2]{label=(\alph*)}
+
+\ifpratyush@asy
+	\RequirePackage[inline]{asymptote}
+\fi
+
+\RequirePackage{amsthm}
+
+\ifpratyush@thm
+	\theoremstyle{definition}
+
+	\ifpratyush@thmnums
+		\newtheorem{theorem}{Theorem}
+		\newtheorem*{theorem*}{Theorem}
+		\newtheorem{proposition}[theorem]{Proposition}
+		\newtheorem*{proposition*}{Proposition}
+		\newtheorem{lemma}[theorem]{Lemma}
+		\newtheorem*{lemma*}{Lemma}
+	\else
+		\newtheorem*{theorem}{Theorem}
+		\newtheorem*{proposition}{Proposition}
+		\newtheorem*{lemma}{Lemma}
+	\fi
+
+	\ifpratyush@defnnums
+		\newtheorem{definition}[theorem]{Definition}
+		\newtheorem*{definition*}{Definition}
+	\else
+		\newtheorem*{definition}{Definition}
+	\fi
+
+	\newtheorem*{solution}{Solution}
+\fi
+
+\RequirePackage{fancyvrb}
+\VerbatimFootnotes
+% https://tex.stackexchange.com/a/209
+
+% }}}
+
+% Abbreviated syntax for bmatrix
+% From Harvard Math 21b (fall 2020)
+\newcommand\bmat[1]{\ensuremath{\begin{bmatrix}#1\end{bmatrix}}}
+
+% Linear algebra macros
+\ifpratyush@linalg
+	\input{pratyush2_linalg.sty}
+\fi
+
+\let\emptyset\varnothing
+
+\newcommand\todo[1]{{\color{red}\textbf{(TODO: #1)}}}
+
+% Roman numerals
+% https://tex.stackexchange.com/a/23492
+\newcommand*\rom[1]{\text{\expandafter\@slowromancap\romannumeral #1@}}
+
+% Extended references (e.g. \eref{lemma:mylemma}{Lemma} creates "Lemma 1" where
+% both words together form a hyperlink)
+\newcommand\eref[2]{\hyperref[#1]{#2 \ref*{#1}}}
+
+% Similar to \hfill but in display math
+% https://tex.stackexchange.com/a/83522
+\newcommand{\pushright}[1]{%
+	\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces%
+}
+\newcommand{\pushleft}[1]{%
+	\ifmeasuring@#1\else\omit$\displaystyle#1$\hfill\fi\ignorespaces%
+}
+
+\allowdisplaybreaks
+
+\author{Pratyush Venkatakrishnan}
+% vim: set fdm=marker:
