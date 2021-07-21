@@ -1,0 +1,113 @@
+% pratyush.sty version 1 (2021-04-10)
+\ProvidesPackage{pratyush1}
+
+% Add option to disable amssymb and mathtools (e.g., if using mathdesign)
+\newif\if@ams\@amsfalse
+\DeclareOption{noamsfonts}{\@amstrue}
+
+\ProcessOptions\relax
+
+% Standard package imports and config {{{
+\RequirePackage[T1]{fontenc}
+\if@ams\else
+\RequirePackage{lmodern}
+\fi
+
+\RequirePackage{microtype}
+\RequirePackage{hyphsubst}
+\HyphSubstLet{english}{usenglishmax}
+\RequirePackage[english]{babel}
+% https://tex.stackexchange.com/a/27743
+
+\RequirePackage{amsmath}
+
+\if@ams\else
+\RequirePackage{amssymb, mathtools}
+\fi
+
+\RequirePackage[colorlinks]{hyperref}
+\RequirePackage{array, booktabs, multirow, longtable}
+
+\RequirePackage[shortlabels, inline]{enumitem}
+\setenumerate[2]{label=(\alph*)}
+
+\RequirePackage[inline]{asymptote}
+
+\RequirePackage{amsthm}
+\theoremstyle{definition}
+\newtheorem*{solution}{Solution}
+\newtheorem*{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{lemma}{Lemma}
+\newtheorem*{lemma*}{Lemma}
+
+\RequirePackage{fancyvrb}
+\VerbatimFootnotes
+% https://tex.stackexchange.com/a/209
+
+\RequirePackage{xparse}
+% }}}
+
+% Linear algebra macros {{{1
+
+% System of linear equations
+\newenvironment{eqnsystem}{\left|\begin{array}{*{100}r}}{\end{array}\right|}
+
+% Augmented matrix {{{2
+% https://tex.stackexchange.com/a/2238
+\NewDocumentEnvironment {amatrix} {mO{1}}
+% #1: number of columns before line
+% #2: number of columns after line (defaults to 1)
+{%
+	\left[\begin{array}{@{}*{#1}{c}|*{#2}c@{}}
+}{%
+	\end{array}\right]
+}
+% }}}2
+
+% Abbreviated syntax for bmatrix {{{2
+\newcommand\bmat[1]{\ensuremath{\begin{bmatrix}#1\end{bmatrix}}}
+% }}}2
+
+\DeclareMathOperator{\Span}{span}
+% https://tex.stackexchange.com/a/33266
+\DeclareMathOperator{\proj}{proj}
+% https://tex.stackexchange.com/a/239050
+\DeclareMathOperator{\rref}{rref}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\refl}{ref}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\tr}{tr}
+
+\newcommand\basis\mathfrak
+
+% A vector written in different coordinates (using a different basis)
+\newcommand\coord[2]{\ensuremath{[#1]_{\mathfrak{#2}}}}
+
+% }}}
+
+\let\emptyset\varnothing
+
+\newcommand\pset[1]{\textbf{(PSet #1)}}
+\newcommand\todo[1]{{\color{red}\textbf{(TODO: #1)}}}
+
+\makeatletter
+\newcommand*\rom[1]{\text{\expandafter\@slowromancap\romannumeral #1@}}
+\makeatother
+% https://tex.stackexchange.com/a/23492
+
+% Extended references (e.g. \eref{lemma:mylemma}{Lemma} creates "Lemma 1" where
+% both words together form a hyperlink)
+\newcommand\eref[2]{\hyperref[#1]{#2 \ref*{#1}}}
+
+\makeatletter
+\newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
+\newcommand{\pushleft}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\hfill\fi\ignorespaces}
+\makeatother
+% https://tex.stackexchange.com/a/83522
+
+\allowdisplaybreaks
+
+\author{Pratyush Venkatakrishnan}
+% vim: set fdm=marker:

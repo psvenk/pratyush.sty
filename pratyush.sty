@@ -1,112 +1,38 @@
-\ProvidesPackage{pratyush}
+\NeedsTeXFormat{LaTeX2e}
+\RequirePackage{expl3, l3keys2e}
+\ProvidesExplPackage {pratyush} {2021/07/21} {20210721} {Personal style file}
 
-% Add option to disable amssymb and mathtools (e.g., if using mathdesign)
-\newif\if@ams\@amsfalse
-\DeclareOption{noamsfonts}{\@amstrue}
+\ExplSyntaxOn
 
-\ProcessOptions\relax
-
-% Standard package imports and config {{{
-\RequirePackage[T1]{fontenc}
-\if@ams\else
-\RequirePackage{lmodern}
-\fi
-
-\RequirePackage{microtype}
-\RequirePackage{hyphsubst}
-\HyphSubstLet{english}{usenglishmax}
-\RequirePackage[english]{babel}
-% https://tex.stackexchange.com/a/27743
-
-\RequirePackage{amsmath}
-
-\if@ams\else
-\RequirePackage{amssymb, mathtools}
-\fi
-
-\RequirePackage[colorlinks]{hyperref}
-\RequirePackage{array, booktabs, multirow, longtable}
-
-\RequirePackage[shortlabels, inline]{enumitem}
-\setenumerate[2]{label=(\alph*)}
-
-\RequirePackage[inline]{asymptote}
-
-\RequirePackage{amsthm}
-\theoremstyle{definition}
-\newtheorem*{solution}{Solution}
-\newtheorem*{definition}{Definition}
-\newtheorem{proposition}{Proposition}
-\newtheorem*{proposition*}{Proposition}
-\newtheorem{lemma}{Lemma}
-\newtheorem*{lemma*}{Lemma}
-
-\RequirePackage{fancyvrb}
-\VerbatimFootnotes
-% https://tex.stackexchange.com/a/209
-
-\RequirePackage{xparse}
-% }}}
-
-% Linear algebra macros {{{1
-
-% System of linear equations
-\newenvironment{eqnsystem}{\left|\begin{array}{*{100}r}}{\end{array}\right|}
-
-% Augmented matrix {{{2
-% https://tex.stackexchange.com/a/2238
-\NewDocumentEnvironment {amatrix} {mO{1}}
-% #1: number of columns before line
-% #2: number of columns after line (defaults to 1)
-{%
-	\left[\begin{array}{@{}*{#1}{c}|*{#2}c@{}}
-}{%
-	\end{array}\right]
+% Name of package being used
+\tl_new:N \l_pratyush_package_tl
+\msg_new:nnn {pratyush} {no_version} {
+	No~ version~ number~ given.~ Assuming~ version~ 1~ (for~ backwards~
+	compatibility).
 }
-% }}}2
 
-% Abbreviated syntax for bmatrix {{{2
-\newcommand\bmat[1]{\ensuremath{\begin{bmatrix}#1\end{bmatrix}}}
-% }}}2
+\keys_define:nn {pratyush_config} {
+	version .code:n = {
+		\tl_set:Nn \l_pratyush_package_tl {pratyush #1}
+	},
+	version .value_required:n = true,
+	unknown .code:n = {
+		% Pass unknown options to underlying package
+		\PassOptionsToPackage{
+			\tl_if_empty:NTF \l_keys_value_tl
+				{\l_keys_key_str}
+				{\l_keys_key_str = \l_keys_value_tl}
+		}{\tl_use:N \l_pratyush_package_tl}
+	}
+}
 
-\DeclareMathOperator{\Span}{span}
-% https://tex.stackexchange.com/a/33266
-\DeclareMathOperator{\proj}{proj}
-% https://tex.stackexchange.com/a/239050
-\DeclareMathOperator{\rref}{rref}
-\DeclareMathOperator{\im}{im}
-\DeclareMathOperator{\refl}{ref}
-\DeclareMathOperator{\rank}{rank}
-\DeclareMathOperator{\tr}{tr}
+\ProcessKeysOptions {pratyush_config}
 
-\newcommand\basis\mathfrak
+\tl_if_empty:NT \l_pratyush_package_tl {
+	\msg_warning:nn {pratyush} {no_version}
+	\keys_set:nn {pratyush_config} {version = 1}
+}
 
-% A vector written in different coordinates (using a different basis)
-\newcommand\coord[2]{\ensuremath{[#1]_{\mathfrak{#2}}}}
+\RequirePackage{\tl_use:N \l_pratyush_package_tl}
 
-% }}}
-
-\let\emptyset\varnothing
-
-\newcommand\pset[1]{\textbf{(PSet #1)}}
-\newcommand\todo[1]{{\color{red}\textbf{(TODO: #1)}}}
-
-\makeatletter
-\newcommand*\rom[1]{\text{\expandafter\@slowromancap\romannumeral #1@}}
-\makeatother
-% https://tex.stackexchange.com/a/23492
-
-% Extended references (e.g. \eref{lemma:mylemma}{Lemma} creates "Lemma 1" where
-% both words together form a hyperlink)
-\newcommand\eref[2]{\hyperref[#1]{#2 \ref*{#1}}}
-
-\makeatletter
-\newcommand{\pushright}[1]{\ifmeasuring@#1\else\omit\hfill$\displaystyle#1$\fi\ignorespaces}
-\newcommand{\pushleft}[1]{\ifmeasuring@#1\else\omit$\displaystyle#1$\hfill\fi\ignorespaces}
-\makeatother
-% https://tex.stackexchange.com/a/83522
-
-\allowdisplaybreaks
-
-\author{Pratyush Venkatakrishnan}
-% vim: set fdm=marker:
+\ExplSyntaxOff
