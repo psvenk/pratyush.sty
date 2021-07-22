@@ -8,6 +8,8 @@
 \newif\ifpratyush@thmnums\pratyush@thmnumstrue
 % Definition numbering by default
 \newif\ifpratyush@defnnums\pratyush@defnnumsfalse
+% Include auxiliary theorem environments
+\newif\ifpratyush@thmaux\pratyush@thmauxtrue
 % Asymptote
 \newif\ifpratyush@asy\pratyush@asytrue
 % Linear algebra macros
@@ -17,6 +19,7 @@
 \DeclareOption{nothm}{\pratyush@thmfalse}
 \DeclareOption{thmnonums}{\pratyush@thmnumsfalse}
 \DeclareOption{defnnums}{\pratyush@defnnumstrue}
+\DeclareOption{thmaux}{\pratyush@thmauxfalse}
 \DeclareOption{noasy}{\pratyush@asyfalse}
 \DeclareOption{linalg}{\pratyush@linalgtrue}
 
@@ -73,7 +76,13 @@
 		\declaretheorem[numbered=no]{definition}
 	\fi
 
-	\declaretheorem[numbered=no]{solution}
+	\ifpratyush@thmaux
+		\declaretheorem[numbered=no]{solution}
+		\declaretheorem[numbered=no]{example}
+		\declaretheorem[numbered=no]{claim}
+		\declaretheorem[numbered=no]{remark}
+		\declaretheorem[numbered=no]{fact}
+	\fi
 \fi
 
 \RequirePackage{fancyvrb}
