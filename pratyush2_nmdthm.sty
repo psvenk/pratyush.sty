@@ -1,0 +1,22 @@
+% Custom named theorem environments
+% (to be used once without needing to declare them individually in the preamble)
+% https://tex.stackexchange.com/a/12938
+
+% This is in a separate file so that syntax highlighting and folding are not
+% thrown off.
+
+\newcounter{pratyush@nmdthmcnt}
+\NewDocumentEnvironment {namedthm} {mo} {
+	% #1: name of theorem
+	% #2: attribution (same as optional argument of theorem environment)
+	\addtocounter{pratyush@nmdthmcnt}{1}
+	\theoremstyle{definition}
+	\newtheorem*{nmdthm\roman{pratyush@nmdthmcnt}}{#1}
+	\IfNoValueTF {#2} {
+		\begin{nmdthm\roman{pratyush@nmdthmcnt}}
+	} {
+		\begin{nmdthm\roman{pratyush@nmdthmcnt}}[#2]
+	}
+} {
+	\end{nmdthm\roman{pratyush@nmdthmcnt}}
+}

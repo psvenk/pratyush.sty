@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2021/07/21 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2021/07/22 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -52,6 +52,14 @@
 	\RequirePackage[inline]{asymptote}
 \fi
 
+\RequirePackage{fancyvrb}
+\VerbatimFootnotes
+% https://tex.stackexchange.com/a/209
+
+\RequirePackage{xparse}
+% }}}
+
+% Theorem environments {{{
 \ifpratyush@thm
 	\RequirePackage{amsthm, thmtools}
 	\theoremstyle{definition}
@@ -83,12 +91,9 @@
 		\declaretheorem[numbered=no]{remark}
 		\declaretheorem[numbered=no]{fact}
 	\fi
+
+	\input{pratyush2_nmdthm.sty}
 \fi
-
-\RequirePackage{fancyvrb}
-\VerbatimFootnotes
-% https://tex.stackexchange.com/a/209
-
 % }}}
 
 % Abbreviated syntax for bmatrix
@@ -102,7 +107,7 @@
 
 \let\emptyset\varnothing
 
-\newcommand\todo[1]{{\color{red}\textbf{(TODO: #1)}}}
+\newcommand\todo[1]{\textbf{\color{red}(TODO: #1)}}
 
 % Roman numerals
 % https://tex.stackexchange.com/a/23492
