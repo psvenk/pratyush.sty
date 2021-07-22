@@ -49,32 +49,31 @@
 	\RequirePackage[inline]{asymptote}
 \fi
 
-\RequirePackage{amsthm}
-
 \ifpratyush@thm
+	\RequirePackage{amsthm, thmtools}
 	\theoremstyle{definition}
 
 	\ifpratyush@thmnums
-		\newtheorem{theorem}{Theorem}
-		\newtheorem*{theorem*}{Theorem}
-		\newtheorem{proposition}[theorem]{Proposition}
-		\newtheorem*{proposition*}{Proposition}
-		\newtheorem{lemma}[theorem]{Lemma}
-		\newtheorem*{lemma*}{Lemma}
+		\declaretheorem{theorem}
+		\declaretheorem[sibling=theorem]{proposition}
+		\declaretheorem[sibling=theorem]{lemma}
+		\declaretheorem[name=Theorem, numbered=no]{theorem*}
+		\declaretheorem[name=Proposition, numbered=no]{proposition*}
+		\declaretheorem[name=Lemma, numbered=no]{lemma*}
 	\else
-		\newtheorem*{theorem}{Theorem}
-		\newtheorem*{proposition}{Proposition}
-		\newtheorem*{lemma}{Lemma}
+		\declaretheorem[numbered=no]{theorem}
+		\declaretheorem[numbered=no]{proposition}
+		\declaretheorem[numbered=no]{lemma}
 	\fi
 
 	\ifpratyush@defnnums
-		\newtheorem{definition}[theorem]{Definition}
-		\newtheorem*{definition*}{Definition}
+		\declaretheorem[sibling=theorem]{definition}
+		\declaretheorem[name=Definition, numbered=no]{definition*}
 	\else
-		\newtheorem*{definition}{Definition}
+		\declaretheorem[numbered=no]{definition}
 	\fi
 
-	\newtheorem*{solution}{Solution}
+	\declaretheorem[numbered=no]{solution}
 \fi
 
 \RequirePackage{fancyvrb}
