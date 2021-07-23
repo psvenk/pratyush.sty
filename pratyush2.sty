@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2021/07/22 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2021/07/23 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -72,6 +72,7 @@
 	\ifpratyush@thmboxed
 		\usepackage[framemethod=TikZ]{mdframed}
 
+		% \pratyush@newthmstyle {{{
 		% Inspired by evan.sty
 		% https://github.com/vEnhance/dotfiles/blob/main/texmf/tex/latex/evan/evan.sty
 		\NewDocumentCommand \pratyush@newthmstyle {mmm} {
@@ -95,6 +96,7 @@
 				headpunct = {\\[3pt]},
 			]{thm#1box}
 		}
+		% }}}
 
 		\pratyush@newthmstyle{blue}{blue}{TealBlue!5}
 		\pratyush@newthmstyle{red}{RawSienna}{Salmon!5}
@@ -104,52 +106,95 @@
 		\newcommand\pratyush@thmstyle@thm{thmbluebox}
 		\newcommand\pratyush@thmstyle@defn{thmgreenbox}
 		\newcommand\pratyush@thmstyle@remark{thmredbox}
+
+		\newcommand\vocab[1]{\textbf{\color{blue}#1}}
 	\else
 		\newcommand\pratyush@thmstyle@thm{definition}
 		\newcommand\pratyush@thmstyle@defn{definition}
 		\newcommand\pratyush@thmstyle@remark{definition}
+		\newcommand\vocab[1]{\emph{#1}}
 	\fi
 
-	\ifpratyush@thmnums
-		\declaretheorem[style=\pratyush@thmstyle@thm]{theorem}
-		\declaretheorem[
-			style=\pratyush@thmstyle@thm, numbered=no, name=Theorem
-		]{theorem*}
-		\declaretheorem[
-			style=\pratyush@thmstyle@thm, sibling=theorem, name=Proposition
-		]{proposition}
-		\declaretheorem[
-			style=\pratyush@thmstyle@thm, numbered=no, name=Proposition
-		]{proposition*}
-		\declaretheorem[
-			style=\pratyush@thmstyle@thm, sibling=theorem, name=Lemma
-		]{lemma}
-		\declaretheorem[
-			style=\pratyush@thmstyle@thm, numbered=no, name=Lemma
-		]{lemma*}
-	\else
-		\declaretheorem[style=\pratyush@thmstyle@thm, numbered=no]{theorem}
-		\declaretheorem[style=\pratyush@thmstyle@thm, numbered=no]{proposition}
-		\declaretheorem[style=\pratyush@thmstyle@thm, numbered=no]{lemma}
-	\fi
+	% \pratyush@declaretheorem {{{
+	\ExplSyntaxOn
+	\NewDocumentCommand \pratyush@declaretheorem {omoo} {
+		% #1: name of command (part after "\pratyush@") used to determine
+		% numbering (if not given, numbering is always disabled)
+		% #2: name of environment
+		% #3: name of command (part after "\pratyush@thmstyle@") used to
+		% determine styling
+		% #4: name of heading (defaults to name of environment with capital
+		% first letter)
 
-	\ifpratyush@defnnums
-		\declaretheorem[
-			style=\pratyush@thmstyle@defn, sibling=theorem, name=Definition
-		]{definition}
-		\declaretheorem[
-			style=\pratyush@thmstyle@defn, numbered=no, name=Definition
-		]{definition*}
-	\else
-		\declaretheorem[style=\pratyush@thmstyle@defn, numbered=no]{definition}
-	\fi
+		% Name of theorem style (from \declaretheoremstyle)
+		\IfNoValueTF {#3} {
+			\tl_set:Nn \l_tmpa_tl {definition}
+		} {
+			\tl_if_blank:nTF {#3} {
+				\tl_set:Nn \l_tmpa_tl {definition}
+			} {
+				\tl_set:Nn \l_tmpa_tl {\cs:w pratyush@thmstyle@#3 \cs_end:}
+			}
+		}
+
+		\IfNoValueTF {#1} {
+			% Disable numbering
+			\bool_set_false:N \l_tmpa_bool
+		} {
+			\tl_if_blank:nTF {#1} {
+				% Disable numbering
+				\bool_set_false:N \l_tmpa_bool
+			}
+			\cs:w ifpratyush@#1 \cs_end:
+				\bool_set_true:N \l_tmpa_bool
+			\else
+				\bool_set_false:N \l_tmpa_bool
+			\fi
+		}
+
+		\IfNoValueTF {#4} {
+			% Determine heading name by uppercasing first letter of environment
+			% name
+			\tl_set:Nn \l_tmpb_tl {
+				\str_uppercase:f {\str_head:n {#2}}
+				\str_tail:n {#2}
+			}
+		} {
+			\tl_set:Nn \l_tmpb_tl {#4}
+		}
+
+		\bool_if:NTF \l_tmpa_bool {
+			% Number the environment like `theorem`, unless this environment is
+			% `theorem`
+			\tl_if_eq:nnTF {#2} {theorem} {
+				\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl]{#2}
+			} {
+				\declaretheorem[
+					style=\l_tmpa_tl, name=\l_tmpb_tl, sibling=theorem
+				]{#2}
+			}
+			% Starred version
+			\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl, numbered=no]{#2*}
+		} {
+			% No numbering
+			\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl, numbered=no]{#2}
+		}
+	}
+	\ExplSyntaxOff
+	% }}}
+
+	\pratyush@declaretheorem[thmnums]{theorem}[thm]
+	\pratyush@declaretheorem[thmnums]{proposition}[thm]
+	\pratyush@declaretheorem[thmnums]{lemma}[thm]
+
+	\pratyush@declaretheorem[defnnums]{definition}[defn]
 
 	\ifpratyush@thmaux
-		\declaretheorem[style=\pratyush@thmstyle@remark, numbered=no]{remark}
-		\declaretheorem[style=\pratyush@thmstyle@remark, numbered=no]{claim}
-		\declaretheorem[style=\pratyush@thmstyle@remark, numbered=no]{fact}
-		\declaretheorem[style=\pratyush@thmstyle@remark, numbered=no]{example}
-		\declaretheorem[numbered=no]{solution}
+		\pratyush@declaretheorem{remark}[remark]
+		\pratyush@declaretheorem{claim}[remark]
+		\pratyush@declaretheorem{fact}[remark]
+		\pratyush@declaretheorem{example}[remark]
+		\pratyush@declaretheorem{solution}
 	\fi
 
 	\input{pratyush2_namedthm.sty}
