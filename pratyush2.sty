@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2021/07/23 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2021/07/24 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -67,7 +67,6 @@
 % Theorem environments {{{
 \ifpratyush@thm
 	\RequirePackage{amsthm, thmtools}
-	\theoremstyle{definition}
 
 	\ifpratyush@thmboxed
 		\usepackage[framemethod=TikZ]{mdframed}
@@ -99,19 +98,22 @@
 		% }}}
 
 		\pratyush@newthmstyle{blue}{blue}{TealBlue!5}
-		\pratyush@newthmstyle{red}{RawSienna}{Salmon!5}
+		\pratyush@newthmstyle{red}{red}{Salmon!5}
 		\pratyush@newthmstyle{green}{ForestGreen}{ForestGreen!5}
+		\pratyush@newthmstyle{orange}{orange}{orange!5}
 		\pratyush@newthmstyle{black}{black}{RedViolet!5!gray!5}
 
 		\newcommand\pratyush@thmstyle@thm{thmbluebox}
 		\newcommand\pratyush@thmstyle@defn{thmgreenbox}
-		\newcommand\pratyush@thmstyle@remark{thmredbox}
+		\newcommand\pratyush@thmstyle@remark{thmorangebox}
+		\newcommand\pratyush@thmstyle@conjecture{thmredbox}
 
 		\newcommand\vocab[1]{\textbf{\color{blue}#1}}
 	\else
 		\newcommand\pratyush@thmstyle@thm{definition}
 		\newcommand\pratyush@thmstyle@defn{definition}
 		\newcommand\pratyush@thmstyle@remark{definition}
+		\newcommand\pratyush@thmstyle@conjecture{definition}
 		\newcommand\vocab[1]{\emph{#1}}
 	\fi
 
@@ -195,6 +197,7 @@
 		\pratyush@declaretheorem{fact}[remark]
 		\pratyush@declaretheorem{example}[remark]
 		\pratyush@declaretheorem{solution}
+		\pratyush@declaretheorem[thmnums]{conjecture}[conjecture]
 	\fi
 
 	\input{pratyush2_namedthm.sty}
