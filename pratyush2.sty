@@ -68,63 +68,62 @@
 \ifpratyush@thm
 	\RequirePackage{amsthm, thmtools}
 
+	% Helper commands {{{
 	\ifpratyush@thmboxed
 		\usepackage[framemethod=TikZ]{mdframed}
-
 		% \pratyush@newthmstyle {{{
 		% Inspired by evan.sty
 		% https://github.com/vEnhance/dotfiles/blob/main/texmf/tex/latex/evan/evan.sty
 		\NewDocumentCommand \pratyush@newthmstyle {mmm} {
-			% #1: name of box ("thm#1box" will be used)
-			% #2: outline/heading color
-			% #3: background color
-			\mdfdefinestyle{md#1box}{%
-				linewidth = 1pt,
-				% Using \addvspace works after section headers while the
-				% `skipabove` option does not
-				beforesingleframe = {\addvspace{12pt}},
-				innerbottommargin = 9pt,
-				skipbelow = 2pt,
-				linecolor = #2,
-				nobreak = true,
-				backgroundcolor = #3,
-			}
-			\declaretheoremstyle[
-				headfont = {\sffamily\bfseries\color{#2}},
-				mdframed = {style=md#1box},
-				headpunct = {\\[3pt]},
-			]{thm#1box}
+			\ifpratyush@thmboxed
+				% Declares a new type of box for theorems
+				% #1: name of box
+				% #2: outline/heading color
+				% #3: background color
+				\mdfdefinestyle{md#1box}{%
+					linewidth = 1pt,
+					% Using \addvspace works after section headers while the
+					% `skipabove` option does not
+					beforesingleframe = {\addvspace{12pt}},
+					innerbottommargin = 9pt,
+					skipbelow = 2pt,
+					linecolor = #2,
+					nobreak = true,
+					backgroundcolor = #3,
+				}
+				\declaretheoremstyle[
+					headfont = {\sffamily\bfseries\color{#2}},
+					mdframed = {style=md#1box},
+					headpunct = {\\[3pt]},
+				]{thm#1box}
+			\fi
 		}
 		% }}}
-
-		\pratyush@newthmstyle{blue}{blue}{TealBlue!5}
-		\pratyush@newthmstyle{red}{red}{Salmon!5}
-		\pratyush@newthmstyle{green}{ForestGreen}{ForestGreen!5}
-		\pratyush@newthmstyle{orange}{orange}{orange!5}
-		\pratyush@newthmstyle{black}{black}{RedViolet!5!gray!5}
-
-		\newcommand\pratyush@thmstyle@thm{thmbluebox}
-		\newcommand\pratyush@thmstyle@defn{thmgreenbox}
-		\newcommand\pratyush@thmstyle@remark{thmorangebox}
-		\newcommand\pratyush@thmstyle@conjecture{thmredbox}
-
-		\newcommand\vocab[1]{\textbf{\color{blue}#1}}
-	\else
-		\newcommand\pratyush@thmstyle@thm{definition}
-		\newcommand\pratyush@thmstyle@defn{definition}
-		\newcommand\pratyush@thmstyle@remark{definition}
-		\newcommand\pratyush@thmstyle@conjecture{definition}
-		\newcommand\vocab[1]{\emph{#1}}
 	\fi
+
+	% \pratyush@newthmstylegroup {{{
+	\NewDocumentCommand \pratyush@newthmstylegroup {mm} {
+		% Creates a new style group which is aliased to a type of box. The
+		% declared style group can be used as an input to
+		% \pratyush@declaretheorem.
+
+		% #1: name of style group
+		% #2: name of box
+		\ifpratyush@thmboxed
+			\@namedef{pratyush@thmstyle@#1}{thm#2box}
+		\else
+			\@namedef{pratyush@thmstyle@#1}{definition}
+		\fi
+	}
+	% }}}
 
 	% \pratyush@declaretheorem {{{
 	\ExplSyntaxOn
 	\NewDocumentCommand \pratyush@declaretheorem {omoo} {
-		% #1: name of command (part after "\pratyush@") used to determine
+		% #1: name of config command (part after "\pratyush@") used to determine
 		% numbering (if not given, numbering is always disabled)
 		% #2: name of environment
-		% #3: name of command (part after "\pratyush@thmstyle@") used to
-		% determine styling
+		% #3: name of style group (from \pratyush@newthmstylegroup)
 		% #4: name of heading (defaults to name of environment with capital
 		% first letter)
 
@@ -184,6 +183,25 @@
 	}
 	\ExplSyntaxOff
 	% }}}
+	% }}}
+
+	\pratyush@newthmstyle{blue}{blue}{TealBlue!5}
+	\pratyush@newthmstyle{red}{red}{Salmon!5}
+	\pratyush@newthmstyle{green}{ForestGreen}{ForestGreen!5}
+	\pratyush@newthmstyle{orange}{orange}{orange!5}
+	\pratyush@newthmstyle{black}{black}{RedViolet!5!gray!5}
+
+	\pratyush@newthmstylegroup{thm}{blue}
+	\pratyush@newthmstylegroup{defn}{green}
+	\pratyush@newthmstylegroup{remark}{orange}
+	\pratyush@newthmstylegroup{conjecture}{red}
+
+	% Vocab word in definition
+	\ifpratyush@thmboxed
+		\newcommand\vocab[1]{\textbf{\color{blue}#1}}
+	\else
+		\newcommand\vocab[1]{\emph{#1}}
+	\fi
 
 	\pratyush@declaretheorem[thmnums]{theorem}[thm]
 	\pratyush@declaretheorem[thmnums]{proposition}[thm]
