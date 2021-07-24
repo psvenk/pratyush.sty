@@ -61,6 +61,8 @@
 \VerbatimFootnotes
 % https://tex.stackexchange.com/a/209
 
+\RequirePackage{semantic-markup}
+
 \RequirePackage{xparse}
 % }}}
 
@@ -221,6 +223,11 @@
 	\input{pratyush2_namedthm.sty}
 \fi
 % }}}
+
+% Commands useful for running head
+\providecommand\thetitle\@title
+\providecommand\theauthor\@author
+\providecommand\thedate\@date
 
 % Abbreviated syntax for bmatrix
 % From Harvard Math 21b (fall 2020)
