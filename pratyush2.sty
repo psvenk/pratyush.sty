@@ -73,35 +73,35 @@
 	% Helper commands {{{
 	\ifpratyush@thmboxed
 		\usepackage[framemethod=TikZ]{mdframed}
-		% \pratyush@newthmstyle {{{
-		% Inspired by evan.sty
-		% https://github.com/vEnhance/dotfiles/blob/main/texmf/tex/latex/evan/evan.sty
-		\NewDocumentCommand \pratyush@newthmstyle {mmm} {
-			\ifpratyush@thmboxed
-				% Declares a new type of box for theorems
-				% #1: name of box
-				% #2: outline/heading color
-				% #3: background color
-				\mdfdefinestyle{md#1box}{%
-					linewidth = 1pt,
-					% Using \addvspace works after section headers while the
-					% `skipabove` option does not
-					beforesingleframe = {\addvspace{12pt}},
-					innerbottommargin = 9pt,
-					skipbelow = 2pt,
-					linecolor = #2,
-					nobreak = true,
-					backgroundcolor = #3,
-				}
-				\declaretheoremstyle[
-					headfont = {\sffamily\bfseries\color{#2}},
-					mdframed = {style=md#1box},
-					headpunct = {\\[3pt]},
-				]{thm#1box}
-			\fi
-		}
-		% }}}
 	\fi
+	% \pratyush@newthmstyle {{{
+	% Inspired by evan.sty
+	% https://github.com/vEnhance/dotfiles/blob/main/texmf/tex/latex/evan/evan.sty
+	\NewDocumentCommand \pratyush@newthmstyle {mmm} {
+		\ifpratyush@thmboxed
+			% Declares a new type of box for theorems
+			% #1: name of box
+			% #2: outline/heading color
+			% #3: background color
+			\mdfdefinestyle{md#1box}{%
+				linewidth = 1pt,
+				% Using \addvspace works after section headers while the
+				% `skipabove` option does not
+				beforesingleframe = {\addvspace{12pt}},
+				innerbottommargin = 9pt,
+				skipbelow = 2pt,
+				linecolor = #2,
+				nobreak = true,
+				backgroundcolor = #3,
+			}
+			\declaretheoremstyle[
+				headfont = {\sffamily\bfseries\color{#2}},
+				mdframed = {style=md#1box},
+				headpunct = {\\[3pt]},
+			]{thm#1box}
+		\fi
+	}
+	% }}}
 
 	% \pratyush@newthmstylegroup {{{
 	\NewDocumentCommand \pratyush@newthmstylegroup {mm} {
