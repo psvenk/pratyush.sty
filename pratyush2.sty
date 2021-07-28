@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2021/07/27 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2021/07/28 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -16,6 +16,8 @@
 \newif\ifpratyush@asy\pratyush@asytrue
 % Linear algebra macros
 \newif\ifpratyush@linalg\pratyush@linalgfalse
+% Minted
+\newif\ifpratyush@minted\pratyush@mintedfalse
 
 \DeclareOption{noamsfonts}{\pratyush@amsfontsfalse}
 \DeclareOption{nothm}{\pratyush@thmfalse}
@@ -25,6 +27,7 @@
 \DeclareOption{thmboxed}{\pratyush@thmboxedtrue}
 \DeclareOption{noasy}{\pratyush@asyfalse}
 \DeclareOption{linalg}{\pratyush@linalgtrue}
+\DeclareOption{minted}{\pratyush@mintedtrue}
 
 \ProcessOptions\relax
 
@@ -60,6 +63,10 @@
 \RequirePackage{fancyvrb}
 \VerbatimFootnotes
 % https://tex.stackexchange.com/a/209
+
+\ifpratyush@minted
+	\RequirePackage{minted}
+\fi
 
 \RequirePackage{semantic-markup}
 
