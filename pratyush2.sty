@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2021/07/28 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2021/07/29 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -16,6 +16,8 @@
 \newif\ifpratyush@asy\pratyush@asytrue
 % Linear algebra macros
 \newif\ifpratyush@linalg\pratyush@linalgfalse
+% Number theory macros
+\newif\ifpratyush@nt\pratyush@ntfalse
 % Minted
 \newif\ifpratyush@minted\pratyush@mintedfalse
 
@@ -27,6 +29,7 @@
 \DeclareOption{thmboxed}{\pratyush@thmboxedtrue}
 \DeclareOption{noasy}{\pratyush@asyfalse}
 \DeclareOption{linalg}{\pratyush@linalgtrue}
+\DeclareOption{nt}{\pratyush@nttrue}
 \DeclareOption{minted}{\pratyush@mintedtrue}
 
 \ProcessOptions\relax
@@ -237,14 +240,24 @@
 \providecommand\theauthor\@author
 \providecommand\thedate\@date
 
-% Abbreviated syntax for bmatrix
-% From Harvard Math 21b (fall 2020)
-\newcommand\bmat[1]{\ensuremath{\begin{bmatrix}#1\end{bmatrix}}}
-
 % Linear algebra macros
-\ifpratyush@linalg
-	\input{pratyush2_linalg.sty}
+% From Harvard Math 21b (fall 2020)
+\input{pratyush2_linalg.sty}
+
+% Number theory macros {{{
+% From PROMYS (summer 2021)
+\DeclareMathOperator{\lcm}{lcm}
+
+\ifpratyush@nt
+	\DeclareMathOperator{\Ind}{Ind}
+	\DeclareMathOperator{\norm}{N}
+	\DeclareMathOperator{\order}{order}
+
+	% \middle| but with spacing similar to \mid (for "divides" relation between
+	% two large expressions) --- needs \left. and \right. to delimit expression
+	\newcommand\midmid{\;\middle|\;}
 \fi
+% }}}
 
 \let\emptyset\varnothing
 

@@ -1,38 +1,42 @@
 % Linear algebra macros
 % From Harvard Math 21b (fall 2020)
 
-% These are in a separate file so that my syntax highlighting is not thrown off
-% by the eqnsystem and amatrix definitions.
+% These are in a separate file so that my syntax highlighting and folding are
+% not thrown off by the bmat, eqnsystem, and amatrix definitions.
 
-\RequirePackage{xparse}
+% Abbreviated syntax for bmatrix
+\newcommand\bmat[1]{\ensuremath{\begin{bmatrix}#1\end{bmatrix}}}
 
-% System of linear equations
-\newenvironment{eqnsystem}{\left|\begin{array}{*{100}r}}{\end{array}\right|}
+% Only enable these if linear algebra macros were requested
+\ifpratyush@linalg
+	% System of linear equations
+	\newenvironment{eqnsystem}{\left|\begin{array}{*{100}r}}{\end{array}\right|}
 
-% Augmented matrix {{{2
-% https://tex.stackexchange.com/a/2238
-\NewDocumentEnvironment {amatrix} {mO{1}}
-% #1: number of columns before line
-% #2: number of columns after line (defaults to 1)
-{%
-	\left[\begin{array}{@{}*{#1}{c}|*{#2}c@{}}
-}{%
-	\end{array}\right]
-}
-% }}}2
+	% Augmented matrix {{{2
+	% https://tex.stackexchange.com/a/2238
+	\NewDocumentEnvironment {amatrix} {mO{1}}
+	% #1: number of columns before line
+	% #2: number of columns after line (defaults to 1)
+	{%
+		\left[\begin{array}{@{}*{#1}{c}|*{#2}c@{}}
+	}{%
+		\end{array}\right]
+	}
+	% }}}2
 
 
-\DeclareMathOperator{\Span}{span}
-% https://tex.stackexchange.com/a/33266
-\DeclareMathOperator{\proj}{proj}
-% https://tex.stackexchange.com/a/239050
-\DeclareMathOperator{\rref}{rref}
-\DeclareMathOperator{\im}{im}
-\DeclareMathOperator{\refl}{ref}
-\DeclareMathOperator{\rank}{rank}
-\DeclareMathOperator{\tr}{tr}
+	\DeclareMathOperator{\Span}{span}
+	% https://tex.stackexchange.com/a/33266
+	\DeclareMathOperator{\proj}{proj}
+	% https://tex.stackexchange.com/a/239050
+	\DeclareMathOperator{\rref}{rref}
+	\DeclareMathOperator{\im}{im}
+	\DeclareMathOperator{\refl}{ref}
+	\DeclareMathOperator{\rank}{rank}
+	\DeclareMathOperator{\tr}{tr}
 
-\newcommand\basis\mathfrak
+	\newcommand\basis\mathfrak
 
-% A vector written in different coordinates (using a different basis)
-\newcommand\coord[2]{\ensuremath{[#1]_{\mathfrak{#2}}}}
+	% A vector written in different coordinates (using a different basis)
+	\newcommand\coord[2]{\ensuremath{[#1]_{\mathfrak{#2}}}}
+\fi
