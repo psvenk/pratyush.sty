@@ -12,6 +12,8 @@
 \newif\ifpratyush@thmaux\pratyush@thmauxtrue
 % Colored boxes around theorem environments
 \newif\ifpratyush@thmboxed\pratyush@thmboxedfalse
+% Redefine Greek letters to use my preferred variants
+\newif\ifpratyush@greek\pratyush@greektrue
 % Asymptote
 \newif\ifpratyush@asy\pratyush@asytrue
 % Linear algebra macros
@@ -27,6 +29,7 @@
 \DeclareOption{defnnums}{\pratyush@defnnumstrue}
 \DeclareOption{thmaux}{\pratyush@thmauxfalse}
 \DeclareOption{thmboxed}{\pratyush@thmboxedtrue}
+\DeclareOption{nogreek}{\pratyush@greekfalse}
 \DeclareOption{noasy}{\pratyush@asyfalse}
 \DeclareOption{linalg}{\pratyush@linalgtrue}
 \DeclareOption{nt}{\pratyush@nttrue}
@@ -239,6 +242,15 @@
 \providecommand\thetitle\@title
 \providecommand\theauthor\@author
 \providecommand\thedate\@date
+
+% Redefine certain Greek letters
+\ifpratyush@greek
+	\let\oldphi\phi
+	\let\phi\varphi
+
+	\let\oldepsilon\epsilon
+	\let\epsilon\varepsilon
+\fi
 
 % Linear algebra macros
 % From Harvard Math 21b (fall 2020)
