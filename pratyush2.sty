@@ -87,15 +87,14 @@
 	\ifpratyush@thmboxed
 		\usepackage[framemethod=TikZ]{mdframed}
 	\fi
-	% \pratyush@newthmstyle {{{
-	% Inspired by evan.sty
-	% https://github.com/vEnhance/dotfiles/blob/main/texmf/tex/latex/evan/evan.sty
-	\NewDocumentCommand \pratyush@newthmstyle {mmm} {
+	\NewDocumentCommand \pratyush@newthmstyle {mmm} { % {{{
+		% Declares a new type of box for theorems
+		% Inspired by evan.sty
+		% https://github.com/vEnhance/dotfiles/blob/main/texmf/tex/latex/evan/evan.sty
+		% #1: name of box
+		% #2: outline/heading color
+		% #3: background color
 		\ifpratyush@thmboxed
-			% Declares a new type of box for theorems
-			% #1: name of box
-			% #2: outline/heading color
-			% #3: background color
 			\mdfdefinestyle{md#1box}{%
 				linewidth = 1pt,
 				% Using \addvspace works after section headers while the
@@ -113,11 +112,9 @@
 				headpunct = {\\[3pt]},
 			]{thm#1box}
 		\fi
-	}
-	% }}}
+	} % }}}
 
-	% \pratyush@newthmstylegroup {{{
-	\NewDocumentCommand \pratyush@newthmstylegroup {mm} {
+	\NewDocumentCommand \pratyush@newthmstylegroup {mm} { % {{{
 		% Creates a new style group which is aliased to a type of box. The
 		% declared style group can be used as an input to
 		% \pratyush@declaretheorem.
@@ -129,12 +126,10 @@
 		\else
 			\@namedef{pratyush@thmstyle@#1}{definition}
 		\fi
-	}
-	% }}}
+	} % }}}
 
-	% \pratyush@declaretheorem {{{
 	\ExplSyntaxOn
-	\NewDocumentCommand \pratyush@declaretheorem {omoo} {
+	\NewDocumentCommand \pratyush@declaretheorem {omoo} { % {{{
 		% #1: name of config command (part after "\pratyush@") used to determine
 		% numbering (if not given, numbering is always disabled)
 		% #2: name of environment
@@ -195,9 +190,8 @@
 			% No numbering
 			\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl, numbered=no]{#2}
 		}
-	}
+	} % }}}
 	\ExplSyntaxOff
-	% }}}
 	% }}}
 
 	\pratyush@newthmstyle{blue}{blue}{TealBlue!5}
