@@ -4,8 +4,10 @@
 % These are in a separate file so that my syntax highlighting and folding are
 % not thrown off by the bmat, eqnsystem, and amatrix definitions.
 
-% Abbreviated syntax for bmatrix
+% Abbreviated syntax for bmatrix, pmatrix, vmatrix
 \newcommand\bmat[1]{\ensuremath{\begin{bmatrix}#1\end{bmatrix}}}
+\newcommand\pmat[1]{\ensuremath{\begin{pmatrix}#1\end{pmatrix}}}
+\newcommand\vmat[1]{\ensuremath{\begin{vmatrix}#1\end{vmatrix}}}
 
 % Only enable these if linear algebra macros were requested
 \ifpratyush@linalg

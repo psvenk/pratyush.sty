@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2021/08/02 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2022/06/20 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -8,6 +8,8 @@
 \newif\ifpratyush@thmnums\pratyush@thmnumstrue
 % Definition numbering by default
 \newif\ifpratyush@defnnums\pratyush@defnnumsfalse
+% Problem numbering by default
+\newif\ifpratyush@problemnums\pratyush@problemnumstrue
 % Include auxiliary theorem environments
 \newif\ifpratyush@thmaux\pratyush@thmauxtrue
 % Colored boxes around theorem environments
@@ -27,6 +29,7 @@
 \DeclareOption{nothm}{\pratyush@thmfalse}
 \DeclareOption{thmnonums}{\pratyush@thmnumsfalse}
 \DeclareOption{defnnums}{\pratyush@defnnumstrue}
+\DeclareOption{problemnonums}{\pratyush@problemnumsfalse}
 \DeclareOption{thmaux}{\pratyush@thmauxfalse}
 \DeclareOption{thmboxed}{\pratyush@thmboxedtrue}
 \DeclareOption{nogreek}{\pratyush@greekfalse}
@@ -219,13 +222,15 @@
 
 	\pratyush@declaretheorem[defnnums]{definition}[defn]
 
+	\pratyush@declaretheorem[problemnums]{problem}[conjecture]
+	\pratyush@declaretheorem{solution}
+	\pratyush@declaretheorem[thmnums]{conjecture}[conjecture]
+
 	\ifpratyush@thmaux
 		\pratyush@declaretheorem{remark}[remark]
 		\pratyush@declaretheorem{claim}[remark]
 		\pratyush@declaretheorem{fact}[remark]
 		\pratyush@declaretheorem{example}[remark]
-		\pratyush@declaretheorem{solution}
-		\pratyush@declaretheorem[thmnums]{conjecture}[conjecture]
 	\fi
 
 	\input{pratyush2_namedthm.sty}
@@ -273,6 +278,18 @@
 	% two large expressions) --- needs \left. and \right. to delimit expression
 	\newcommand\midmid{\;\middle|\;}
 \fi
+% }}}
+
+% From 18.510 (fall 2021) {{{
+\newcommand*\powerset{\mathcal{P}}
+\newcommand*\id{\operatorname{id}}
+\renewcommand*\setminus\smallsetminus
+% }}}
+
+% From Harvard Math E-216 (spring 2022) {{{
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand*{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand*{\abs}[1]{\left\lvert#1\right\rvert}
 % }}}
 
 \let\emptyset\varnothing
