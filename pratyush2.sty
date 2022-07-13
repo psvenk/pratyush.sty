@@ -24,8 +24,6 @@
 \newif\ifpratyush@nt\pratyush@ntfalse
 % Minted
 \newif\ifpratyush@minted\pratyush@mintedfalse
-% Boldface vectors
-\newif\ifpratyush@boldvec\pratyush@boldvecfalse
 
 \DeclareOption{noamsfonts}{\pratyush@amsfontsfalse}
 \DeclareOption{nothm}{\pratyush@thmfalse}
@@ -39,7 +37,6 @@
 \DeclareOption{linalg}{\pratyush@linalgtrue}
 \DeclareOption{nt}{\pratyush@nttrue}
 \DeclareOption{minted}{\pratyush@mintedtrue}
-\DeclareOption{boldvec}{\pratyush@boldvectrue}
 
 \ProcessOptions\relax
 
@@ -302,14 +299,6 @@
 \newcommand*\ihat{\hat{\imath}}
 \newcommand*\jhat{\hat{\jmath}}
 \newcommand*\khat{\hat{k}}
-
-\ifpratyush@boldvec
-	\renewcommand*\vec[1]{\bm{\mathbf{#1}}}
-	\renewcommand*\uvec[1]{\bm{\hat{\mathbf{#1}}}}
-	\renewcommand*\ihat{\bm{\textbf{\^\i}}}
-	\renewcommand*\jhat{\bm{\textbf{\^\j}}}
-	\renewcommand*\khat{\bm{\textbf{\^k}}}
-\fi
 
 \DeclareMathOperator{\dir}{dir}
 \DeclareMathOperator{\curl}{curl}
