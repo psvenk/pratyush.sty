@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2022/06/20 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2022/07/13 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -24,6 +24,8 @@
 \newif\ifpratyush@nt\pratyush@ntfalse
 % Minted
 \newif\ifpratyush@minted\pratyush@mintedfalse
+% Boldface vectors
+\newif\ifpratyush@boldvec\pratyush@boldvecfalse
 
 \DeclareOption{noamsfonts}{\pratyush@amsfontsfalse}
 \DeclareOption{nothm}{\pratyush@thmfalse}
@@ -37,6 +39,7 @@
 \DeclareOption{linalg}{\pratyush@linalgtrue}
 \DeclareOption{nt}{\pratyush@nttrue}
 \DeclareOption{minted}{\pratyush@mintedtrue}
+\DeclareOption{boldvec}{\pratyush@boldvectrue}
 
 \ProcessOptions\relax
 
@@ -78,6 +81,7 @@
 \fi
 
 \RequirePackage{semantic-markup}
+\RequirePackage{bm}
 
 \RequirePackage{xparse}
 % }}}
@@ -290,6 +294,26 @@
 \DeclareMathOperator{\sgn}{sgn}
 \newcommand*{\norm}[1]{\left\lVert#1\right\rVert}
 \newcommand*{\abs}[1]{\left\lvert#1\right\rvert}
+% }}}
+
+% From 18.02 (summer 2022) {{{
+% Unit vector
+\newcommand*\uvec\hat
+\newcommand*\ihat{\hat{\imath}}
+\newcommand*\jhat{\hat{\jmath}}
+\newcommand*\khat{\hat{k}}
+
+\ifpratyush@boldvec
+	\renewcommand*\vec[1]{\bm{\mathbf{#1}}}
+	\renewcommand*\uvec[1]{\bm{\hat{\mathbf{#1}}}}
+	\renewcommand*\ihat{\bm{\textbf{\^\i}}}
+	\renewcommand*\jhat{\bm{\textbf{\^\j}}}
+	\renewcommand*\khat{\bm{\textbf{\^k}}}
+\fi
+
+\DeclareMathOperator{\dir}{dir}
+\DeclareMathOperator{\curl}{curl}
+\DeclareMathOperator{\Div}{div}
 % }}}
 
 \let\emptyset\varnothing
