@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2022/07/13 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2022/09/05 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -133,22 +133,23 @@
 	} % }}}
 
 	\ExplSyntaxOn
-	\NewDocumentCommand \pratyush@declaretheorem {omoo} { % {{{
+	\NewDocumentCommand \pratyush@declaretheorem {oO{theorem}moo} { % {{{
 		% #1: name of config command (part after "\pratyush@") used to determine
 		% numbering (if not given, numbering is always disabled)
-		% #2: name of environment
-		% #3: name of style group (from \pratyush@newthmstylegroup)
-		% #4: name of heading (defaults to name of environment with capital
+		% #2: what to number this environment like (defaults to theorem)
+		% #3: name of environment
+		% #4: name of style group (from \pratyush@newthmstylegroup)
+		% #5: name of heading (defaults to name of environment with capital
 		% first letter)
 
 		% Name of theorem style (from \declaretheoremstyle)
-		\IfNoValueTF {#3} {
+		\IfNoValueTF {#4} {
 			\tl_set:Nn \l_tmpa_tl {definition}
 		} {
-			\tl_if_blank:nTF {#3} {
+			\tl_if_blank:nTF {#4} {
 				\tl_set:Nn \l_tmpa_tl {definition}
 			} {
-				\tl_set:Nn \l_tmpa_tl {\cs:w pratyush@thmstyle@#3 \cs_end:}
+				\tl_set:Nn \l_tmpa_tl {\cs:w pratyush@thmstyle@#4 \cs_end:}
 			}
 		}
 
@@ -159,40 +160,40 @@
 			\tl_if_blank:nTF {#1} {
 				% Disable numbering
 				\bool_set_false:N \l_tmpa_bool
+			} {
+				\cs:w ifpratyush@#1 \cs_end:
+					\bool_set_true:N \l_tmpa_bool
+				\else
+					\bool_set_false:N \l_tmpa_bool
+				\fi
 			}
-			\cs:w ifpratyush@#1 \cs_end:
-				\bool_set_true:N \l_tmpa_bool
-			\else
-				\bool_set_false:N \l_tmpa_bool
-			\fi
 		}
 
-		\IfNoValueTF {#4} {
+		\IfNoValueTF {#5} {
 			% Determine heading name by uppercasing first letter of environment
 			% name
 			\tl_set:Nn \l_tmpb_tl {
-				\str_uppercase:f {\str_head:n {#2}}
-				\str_tail:n {#2}
+				\str_uppercase:f {\str_head:n {#3}}
+				\str_tail:n {#3}
 			}
 		} {
-			\tl_set:Nn \l_tmpb_tl {#4}
+			\tl_set:Nn \l_tmpb_tl {#5}
 		}
 
 		\bool_if:NTF \l_tmpa_bool {
-			% Number the environment like `theorem`, unless this environment is
-			% `theorem`
-			\tl_if_eq:nnTF {#2} {theorem} {
-				\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl]{#2}
+			% Number the environment like #2, unless this environment is #2
+			\tl_if_eq:nnTF {#3} {#2} {
+				\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl]{#3}
 			} {
 				\declaretheorem[
-					style=\l_tmpa_tl, name=\l_tmpb_tl, sibling=theorem
-				]{#2}
+					style=\l_tmpa_tl, name=\l_tmpb_tl, sibling=#2
+				]{#3}
 			}
 			% Starred version
-			\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl, numbered=no]{#2*}
+			\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl, numbered=no]{#3*}
 		} {
 			% No numbering
-			\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl, numbered=no]{#2}
+			\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl, numbered=no]{#3}
 		}
 	} % }}}
 	\ExplSyntaxOff
@@ -223,7 +224,7 @@
 
 	\pratyush@declaretheorem[defnnums]{definition}[defn]
 
-	\pratyush@declaretheorem[problemnums]{problem}[conjecture]
+	\pratyush@declaretheorem[problemnums][problem]{problem}[conjecture]
 	\pratyush@declaretheorem{solution}
 	\pratyush@declaretheorem[thmnums]{conjecture}[conjecture]
 
