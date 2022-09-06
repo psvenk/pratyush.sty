@@ -133,7 +133,7 @@
 	} % }}}
 
 	\ExplSyntaxOn
-	\NewDocumentCommand \pratyush@declaretheorem {oO{theorem}moo} { % {{{
+	\NewDocumentCommand \pratyush@declaretheorem {O{}O{theorem}mO{}O{}} { % {{{
 		% #1: name of config command (part after "\pratyush@") used to determine
 		% numbering (if not given, numbering is always disabled)
 		% #2: what to number this environment like (defaults to theorem)
@@ -143,33 +143,24 @@
 		% first letter)
 
 		% Name of theorem style (from \declaretheoremstyle)
-		\IfNoValueTF {#4} {
+		\tl_if_blank:nTF {#4} {
 			\tl_set:Nn \l_tmpa_tl {definition}
 		} {
-			\tl_if_blank:nTF {#4} {
-				\tl_set:Nn \l_tmpa_tl {definition}
-			} {
-				\tl_set:Nn \l_tmpa_tl {\cs:w pratyush@thmstyle@#4 \cs_end:}
-			}
+			\tl_set:Nn \l_tmpa_tl {\cs:w pratyush@thmstyle@#4 \cs_end:}
 		}
 
-		\IfNoValueTF {#1} {
+		\tl_if_blank:nTF {#1} {
 			% Disable numbering
 			\bool_set_false:N \l_tmpa_bool
 		} {
-			\tl_if_blank:nTF {#1} {
-				% Disable numbering
+			\cs:w ifpratyush@#1 \cs_end:
+				\bool_set_true:N \l_tmpa_bool
+			\else
 				\bool_set_false:N \l_tmpa_bool
-			} {
-				\cs:w ifpratyush@#1 \cs_end:
-					\bool_set_true:N \l_tmpa_bool
-				\else
-					\bool_set_false:N \l_tmpa_bool
-				\fi
-			}
+			\fi
 		}
 
-		\IfNoValueTF {#5} {
+		\tl_if_blank:nTF {#5} {
 			% Determine heading name by uppercasing first letter of environment
 			% name
 			\tl_set:Nn \l_tmpb_tl {
