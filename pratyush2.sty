@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2022/09/05 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2022/09/17 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -24,6 +24,8 @@
 \newif\ifpratyush@nt\pratyush@ntfalse
 % Minted
 \newif\ifpratyush@minted\pratyush@mintedfalse
+% Semantic markup
+\newif\ifpratyush@semanticmarkup\pratyush@semanticmarkuptrue
 
 \DeclareOption{noamsfonts}{\pratyush@amsfontsfalse}
 \DeclareOption{nothm}{\pratyush@thmfalse}
@@ -37,6 +39,7 @@
 \DeclareOption{linalg}{\pratyush@linalgtrue}
 \DeclareOption{nt}{\pratyush@nttrue}
 \DeclareOption{minted}{\pratyush@mintedtrue}
+\DeclareOption{nosemanticmarkup}{\pratyush@semanticmarkupfalse}
 
 \ProcessOptions\relax
 
@@ -77,8 +80,10 @@
 	\RequirePackage{minted}
 \fi
 
-\RequirePackage{semantic-markup}
-\RequirePackage{bm}
+\ifpratyush@semanticmarkup
+	\RequirePackage{semantic-markup}
+	\RequirePackage{bm}
+\fi
 
 \RequirePackage{xparse}
 % }}}
@@ -153,11 +158,11 @@
 			% Disable numbering
 			\bool_set_false:N \l_tmpa_bool
 		} {
-			\cs:w ifpratyush@#1 \cs_end:
+			\cs_if_eq:ccTF {ifpratyush@#1} {iftrue} {
 				\bool_set_true:N \l_tmpa_bool
-			\else
+			} {
 				\bool_set_false:N \l_tmpa_bool
-			\fi
+			}
 		}
 
 		\tl_if_blank:nTF {#5} {
@@ -274,15 +279,15 @@
 % }}}
 
 % From 18.510 (fall 2021) {{{
-\newcommand*\powerset{\mathcal{P}}
-\newcommand*\id{\operatorname{id}}
+\providecommand*\powerset{\mathcal{P}}
+\providecommand*\id{\operatorname{id}}
 \renewcommand*\setminus\smallsetminus
 % }}}
 
 % From Harvard Math E-216 (spring 2022) {{{
 \DeclareMathOperator{\sgn}{sgn}
-\newcommand*{\norm}[1]{\left\lVert#1\right\rVert}
-\newcommand*{\abs}[1]{\left\lvert#1\right\rvert}
+\providecommand*{\norm}[1]{\left\lVert#1\right\rVert}
+\providecommand*{\abs}[1]{\left\lvert#1\right\rvert}
 % }}}
 
 % From 18.02 (summer 2022) {{{
