@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2022/09/17 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2022/10/06 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -42,6 +42,10 @@
 \DeclareOption{nosemanticmarkup}{\pratyush@semanticmarkupfalse}
 
 \ProcessOptions\relax
+
+% Parent counter used to determine numbering of theorem environments
+% (can be section, problem, etc.)
+\providecommand\pratyush@thmparent{}
 
 % Standard package imports and config {{{
 \RequirePackage[T1]{fontenc}
@@ -179,7 +183,8 @@
 		\bool_if:NTF \l_tmpa_bool {
 			% Number the environment like #2, unless this environment is #2
 			\tl_if_eq:nnTF {#3} {#2} {
-				\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl]{#3}
+				\declaretheorem[style=\l_tmpa_tl, name=\l_tmpb_tl,
+				parent=\pratyush@thmparent]{#3}
 			} {
 				\declaretheorem[
 					style=\l_tmpa_tl, name=\l_tmpb_tl, sibling=#2
