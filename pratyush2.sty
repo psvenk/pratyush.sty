@@ -1,4 +1,4 @@
-\ProvidesPackage{pratyush2}[2022/10/06 Personal style file, version 2]
+\ProvidesPackage{pratyush2}[2023/02/10 Personal style file, version 2]
 
 % Import amssymb and mathtools (disable if using mathdesign)
 \newif\ifpratyush@amsfonts\pratyush@amsfontstrue
@@ -210,6 +210,7 @@
 	\pratyush@newthmstylegroup{defn}{green}
 	\pratyush@newthmstylegroup{remark}{orange}
 	\pratyush@newthmstylegroup{conjecture}{red}
+	\pratyush@newthmstylegroup{exercise}{black}
 
 	% Vocab word in definition
 	\ifpratyush@thmboxed
@@ -234,6 +235,7 @@
 		\pratyush@declaretheorem{claim}[remark]
 		\pratyush@declaretheorem{fact}[remark]
 		\pratyush@declaretheorem{example}[remark]
+		\pratyush@declaretheorem{exercise}[exercise]
 	\fi
 
 	\input{pratyush2_namedthm.sty}
